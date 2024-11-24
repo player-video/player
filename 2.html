@@ -5,79 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Player</title>
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-base64/3.7.2/base64.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/disable-devtool@latest"></script>
 </head>
 <body>
     <div id="player"></div>
     <script>
         (function() {
-            const k9xJr3 = 'd9#Gk3!zQp7&TbL1'; // المفتاح السري
-            function z1gH2(data) {
+            disableDevtool();
+            console.log = function() {};
+            console.error = function() {};
+            console.warn = function() {};
+
+            const a1b2C3 = 'd9#Gk3!zQp7&TbL1'; 
+            function n5k9d(data) {
                 const params = new URLSearchParams(window.location.search);
                 return params.get(data);
             }
-            function x5bT4(data) {
-                return Base64.decode(data);
+            function t6m2x(data) {
+                return atob(data);
             }
-            function d9pL7(data, key) {
+            function q3v7f(data, key) {
                 let r = '';
                 for (let i = 0; i < data.length; i++) {
                     r += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
                 }
                 return r;
             }
-            function m3nQ8(data, shift) {
-                let d = '';
+            function k2n4d(data, shift) {
+                let decrypted = '';
                 for (let c of data) {
                     if (/[a-zA-Z]/.test(c)) {
-                        let b = c === c.toUpperCase() ? 65 : 97;
-                        d += String.fromCharCode((c.charCodeAt(0) - b - shift + 26) % 26 + b);
+                        let shiftBase = c === c.toUpperCase() ? 65 : 97;
+                        decrypted += String.fromCharCode((c.charCodeAt(0) - shiftBase - shift + 26) % 26 + shiftBase);
                     } else {
-                        d += c;
+                        decrypted += c;
                     }
                 }
-                return d;
+                return decrypted;
             }
-            function q7vR1(s, key) {
-                let a = s.split('');
-                let i = a.map((_, idx) => idx);
-                function rX(seed) {
+            function g8f5q(data, key) {
+                let array = data.split('');
+                let indices = array.map((_, idx) => idx);
+                function seededRandom(seed) {
                     var x = Math.sin(seed++) * 10000;
                     return x - Math.floor(x);
                 }
-                function yT(arr, seed) {
-                    let m = arr.length, t, i;
+                function shuffleArray(array, seed) {
+                    let m = array.length, t, i;
                     while (m) {
-                        i = Math.floor(rX(seed) * m--);
-                        t = arr[m];
-                        arr[m] = arr[i];
-                        arr[i] = t;
+                        i = Math.floor(seededRandom(seed) * m--);
+                        t = array[m];
+                        array[m] = array[i];
+                        array[i] = t;
                         seed++;
                     }
-                    return arr;
+                    return array;
                 }
                 let seed = 0;
                 for (let i = 0; i < key.length; i++) {
                     seed += key.charCodeAt(i);
                 }
-                let shuffled = yT(i.slice(), seed);
-                let u = [];
-                for (let i = 0; i < a.length; i++) {
-                    u[shuffled[i]] = a[i];
+                let shuffled = shuffleArray(indices.slice(), seed);
+                let unshuffledArray = [];
+                for (let i = 0; i < array.length; i++) {
+                    unshuffledArray[shuffled[i]] = array[i];
                 }
-                return u.join('');
+                return unshuffledArray.join('');
             }
-            function f2kW5(enc, key) {
-                let b64 = x5bT4(enc);
-                let unshuffled = q7vR1(b64, key);
-                let caesar = m3nQ8(unshuffled, 3);
-                let original = d9pL7(caesar, key);
+            function e3k8w(enc, key) {
+                let b64 = t6m2x(enc);
+                let unshuffled = g8f5q(b64, key);
+                let caesar = k2n4d(unshuffled, 3);
+                let original = q3v7f(caesar, key);
                 return original;
             }
-            const encryptedData = z1gH2('data');
+            const encryptedData = n5k9d('data');
             if (encryptedData) {
                 try {
-                    const videoUrl = f2kW5(encryptedData, k9xJr3);
+                    const videoUrl = e3k8w(encryptedData, a1b2C3);
                     const player = new Clappr.Player({
                         source: videoUrl,
                         parentId: '#player',
@@ -86,11 +91,7 @@
                         autoPlay: true,
                         mute: false
                     });
-                } catch (error) {
-                    console.error('Error during decryption:', error);
-                }
-            } else {
-                console.error('No encrypted data provided.');
+                } catch (error) {}
             }
         })();
     </script>
