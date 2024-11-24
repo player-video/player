@@ -23,15 +23,31 @@
             left: 0;
         }
 
-        /* تخصيص شفافية الشعار داخل المشغل */
-        .clappr-watermark {
-            opacity: 0.5 !important; /* الشفافية */
-            width: 120px !important; /* حجم الشعار */
-            height: auto !important; /* الحفاظ على النسبة */
-            pointer-events: none !important; /* منع التفاعل مع الشعار */
-            bottom: 50px; /* المسافة من الأسفل */
-            left: 180px !important; /* المسافة من اليسار لتحريكه إلى اليمين */
-        }
+		/* تخصيص الشعار على الشاشات الكبيرة */
+		.clappr-watermark {
+			opacity: 0.5 !important; /* الشفافية */
+			width: 120px !important; /* حجم الشعار للحواسيب */
+			height: auto !important; /* الحفاظ على النسبة */
+			pointer-events: none !important; /* منع التفاعل مع الشعار */
+			left: 180px !important; /* المسافة من اليسار */
+		}
+
+		/* تخصيص الشعار على الشاشات الصغيرة في الوضع العمودي */
+		@media screen and (max-width: 768px) and (orientation: portrait) {
+			.clappr-watermark {
+				width: 80px !important; /* حجم أصغر للشعار */
+				left: 50px !important; /* تقليل المسافة من اليسار */
+			}
+		}
+
+		/* تخصيص الشعار على الشاشات الصغيرة في الوضع الأفقي */
+		@media screen and (max-width: 1024px) and (orientation: landscape) {
+			.clappr-watermark {
+				width: 80px !important; /* حجم أصغر للشعار */
+				left: 50px !important; /* مسافة مخصصة للوضع الأفقي */
+			}
+		}
+
     </style>
 
     <!-- تضمين مكتبة Telegram Web App -->
