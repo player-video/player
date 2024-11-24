@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Player</title>
+    <title>VidKey</title>
+
     <style>
         html, body {
             margin: 0;
@@ -14,100 +15,83 @@
             background-color: black;
         }
 
-        #vContainer {
+        #my-video {
             width: 100vw;
             height: 100vh;
             position: fixed;
             top: 0;
             left: 0;
-            background-color: black;
+        }
+
+        #watermark {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 100px; /* حجم الشعار */
+            opacity: 0.9; /* الشفافية */
+            pointer-events: none; /* منع التفاعل مع الشعار */
         }
     </style>
+
+    <!-- تضمين مكتبة Telegram Web App -->
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
+    <!-- تضمين سكربت disable-devtool -->
     <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
+    <!-- تضمين مكتبة Clappr -->
     <script src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
 </head>
 <body>
-    <div id="vContainer"></div>
+    <div id="my-video"></div>
+    <img id="watermark" src="https://fusionauth.io/img/logo/fa_logo_white_orange.svg" alt="Channel Logo">
+
     <script>
-        (function() {
-            const zX1Y2 = 'd9#Gk3!zQp7&TbL1';
+        document.addEventListener('DOMContentLoaded', (event) => {
+            if (window.Telegram && window.Telegram.WebApp) {
+                window.Telegram.WebApp.requestFullscreen();
+                window.Telegram.WebApp.setHeaderColor("#FFFFFF");
+            }
+        });
 
-            document.addEventListener('DOMContentLoaded', () => {
-                if (window.Telegram && window.Telegram.WebApp) {
-                    window.Telegram.WebApp.requestFullscreen();
-                    window.Telegram.WebApp.setHeaderColor("#FFFFFF");
+        function isBase64(str) {
+            try {
+                return btoa(atob(str)) === str;
+            } catch (err) {
+                return false;
+            }
+        }
+
+        function decodeBase64(encodedString) {
+            return atob(encodedString);
+        }
+
+        function getStreamUrl() {
+            const params = new URLSearchParams(window.location.search);
+            const url = params.get("url");
+
+            if (url) {
+                if (isBase64(url)) {
+                    return decodeBase64(url);
                 }
+                return url;
+            }
+            return null;
+        }
+
+        const streamUrl = getStreamUrl();
+
+        if (streamUrl) {
+            const player = new Clappr.Player({
+                source: streamUrl,
+                parentId: '#my-video',
+                width: '100%',
+                height: '100%',
+				fullscreenEnabled: true,
+                autoPlay: true,
+                mute: false
             });
-
-            function tR9P(data) {
-                return atob(data);
-            }
-
-            function xW8Z(data, key) {
-                let result = '';
-                for (let i = 0; i < data.length; i++) {
-                    result += String.fromCharCode(data.charCodeAt(i) ^ key.charCodeAt(i % key.length));
-                }
-                return result;
-            }
-
-            function pL5K(data, shift) {
-                let result = '';
-                for (let c of data) {
-                    if (/[a-zA-Z]/.test(c)) {
-                        let base = c === c.toUpperCase() ? 65 : 97;
-                        result += String.fromCharCode((c.charCodeAt(0) - base - shift + 26) % 26 + base);
-                    } else {
-                        result += c;
-                    }
-                }
-                return result;
-            }
-
-            function uN3Q(data, indices) {
-                let arr = data.split('');
-                let rearranged = [];
-                indices.forEach((originalIndex, shuffledIndex) => {
-                    rearranged[originalIndex] = arr[shuffledIndex];
-                });
-                return rearranged.join('');
-            }
-
-            function fX7T(input, key) {
-                let decoded = tR9P(input);
-                const [dataRearranged, indices] = decoded.split('|');
-                const rearrangeIndices = indices.split(',').map(Number);
-                let rearranged = uN3Q(dataRearranged, rearrangeIndices);
-                let step2 = pL5K(rearranged, 3);
-                let finalResult = xW8Z(step2, key);
-                return finalResult;
-            }
-
-            const d5R2 = new URLSearchParams(window.location.search).get('data');
-
-            if (d5R2) {
-                try {
-                    const finalUrl = fX7T(d5R2, zX1Y2);
-                    if (finalUrl) {
-                        new Clappr.Player({
-                            source: finalUrl,
-                            parentId: '#vContainer',
-                            width: '100%',
-                            height: '100%',
-                            autoPlay: true,
-                            mute: false
-                        });
-                    } else {
-                        document.getElementById('vContainer').innerText = "Failed to load video.";
-                    }
-                } catch (e) {
-                    document.getElementById('vContainer').innerText = "Failed to load video.";
-                }
-            } else {
-                document.getElementById('vContainer').innerText = "Invalid video URL.";
-            }
-        })();
+        } else {
+            console.error("Failed to load video.");
+        }
     </script>
 </body>
 </html>
