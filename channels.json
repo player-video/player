@@ -695,6 +695,16 @@
         "k1": "8b95761b0dc7572e825eae11bd37cca9",
         "k2": "74e598c7e140bba6cb14dd2189bc4111"
     },
+    "DAZN_1_DE": {
+        "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/bmnelo5c7a/out/v1/3ce2cdc4589f46189322bd3717c77957/cenc.mpd",
+        "k1": "44dd9cd370b08a868ead115fe84ecfde",
+        "k2": "bff19ab0a51cf14e848389b152913fd0"
+    },
+    "DAZN_2_DE": {
+        "url": "https://dcf-ak-livedazn.akamaized.net/dashrdm/dazn-linear-018/stream.mpd",
+        "k1": "82f8e2a17dac44c0a18f660479349c59",
+        "k2": "1b144f73e6fefe91cd05f850e2b589d0"
+    },
     "DAZN_1_ES": {
         "url": "https://ottb.live.cf.ww.aiv-cdn.net/dub-nitro/live/clients/dash/enc/bmnelo5c7a/out/v1/3ce2cdc4589f46189322bd3717c77957/cenc.mpd",
         "k1": "44dd9cd370b08a868ead115fe84ecfde",
@@ -705,6 +715,19 @@
         "k1": "0eab5a3f3e3b4ba5d42d40ca30d17571",
         "k2": "f3f061ded9b70e8160590d5802ecda6d"
     },
+    
+    "DAZN_3_ES": {
+        "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/zy1ee5sshp/out/v1/bdcffa69fa3b4f3bb3569c9c73ee1c01/cenc.mpd",
+        "k1": "bad8efff688c0dbb3711e4a7114c22a3",
+        "k2": "6ba800673b20776c0c850130d45e1920"
+    },
+    
+    "DAZN_4_ES": {
+        "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/up7qpwch9b/out/v1/a6d5d1a1287b4893b859c2d6ccf2c65d/cenc.mpd",
+        "k1": "d27104d427e4f87e75b19395a9f8796b",
+        "k2": "723593c70e2d4c4862754398e80168f8"
+    },
+            
     "DAZN_F1": {
         "url": "https://live.ll.ww.aiv-cdn.net/OTTB/dub-nitro/live/clients/dash/enc/cqbcvgkb83/out/v1/4dbe05ecfb1540448d82d68eeebfbb1c/cenc.mpd",
         "k1": "1061be12d303247426ec25e8369b2647",
