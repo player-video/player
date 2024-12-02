@@ -70,6 +70,10 @@
                         aspectratio: "16:9",  
                         cast: {},  
                         sharing: {}  
+                    });
+                    // إضافة معالجة الأخطاء هنا
+                    jwplayer("player").on('error', function(event) {
+                        console.error("Error Code:", event.code, "Message:", event.message);
                     });  
                 }  
             })  
